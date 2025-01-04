@@ -178,7 +178,6 @@ const logoutUser = asyncHandler(async(req,res)=>{
         {
             $set:{
                 refreshToken:undefined,
-            
                 new:true
             }
         }
@@ -196,7 +195,7 @@ const logoutUser = asyncHandler(async(req,res)=>{
     .json(new apiResponse(200,{},"User logged out"))
 })
 
-const refreshingAccessToken = asyncHandler(async(req,res)={
+const refreshingAccessToken = asyncHandler(async(req,res)=>{
     const incomingRefreshToken = req.cookie.refreshToken || req.body.refreshToken
 
     if(!incomingRefreshToken){

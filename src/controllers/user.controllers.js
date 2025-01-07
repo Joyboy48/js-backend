@@ -123,7 +123,7 @@ const loginUser = asyncHandler(async(req,res)=>{
     const {email,username,password} = req.body
 
     //check if user provided or not
-    if(!(!username || email)){
+    if(!(username || email)){
         throw new apiError(400,"username or email required")
     }
 
@@ -196,7 +196,7 @@ const logoutUser = asyncHandler(async(req,res)=>{
 })
 
 const refreshingAccessToken = asyncHandler(async(req,res)=>{
-    const incomingRefreshToken = req.cookie.refreshToken || req.body.refreshToken
+    const incomingRefreshToken = req.cookies?.refreshToken || req.body.refreshToken
 
     if(!incomingRefreshToken){
         throw new apiError(401,"unauthorized request")
@@ -216,18 +216,22 @@ const refreshingAccessToken = asyncHandler(async(req,res)=>{
         if(incomingRefreshToken !== user?.refreshToken){
             throw new apiError(401,"Refresh token is expired or used")
         }
+
+        const {accessToken,refreshToken:newRefreshToken} = await generateAccessAndRefreshTokens(user._id)
+
+        if(!accessToken || !newRefreshToken){
+            throw new apiError(401,"error while generating new token")
+        }
     
         const options = {
             httpOnly:true,
             secure:true
         }
     
-        const {accessToken,newRefreshToken} = await generateAccessAndRefreshTokens(user._id)
-    
         return res
         .status(200)
-        .Cookie("accessToken",accessToken,options)
-        .Cookie("refreshToken",newRefreshToken,options)
+        .cookie("accessToken",accessToken,options)
+        .cookie("refreshToken",newRefreshToken,options)
         .json(
             new apiResponse(200,
                 {accessToken,newRefreshToken},
@@ -249,7 +253,7 @@ const changeCurrentPassword = asyncHandler(async(req,res)=>{
     //user password change ker raha mtlb vo ioggedin hai means middleware me user hai
     //so we can access user id ref:auth.middleware
 
-    const user = await User.findById(res.user?._id)
+    const user = await User.findById(req.user?._id)
 
     const isPasswordCorrect = await user.isPasswordCorrect(oldPassword)
 

@@ -296,7 +296,7 @@ const updateAccountDetails = asyncHandler(async(req,res)=>{
      ).select("-password")
 
      return res.status(200)
-     .json(200,user," account details changed successfully ")
+     .json(new apiResponse(200,user," account details changed successfully "))
 })
 
 const updateUserAvatar = asyncHandler(async(req,res)=>{

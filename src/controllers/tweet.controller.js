@@ -7,6 +7,30 @@ import {asyncHandler} from "../utils/asyncHandler.js"
 
 const createTweet = asyncHandler(async (req, res) => {
     //TODO: create tweet
+    //1.get content
+    //2.send it to db
+    const {content} = req.body
+
+    if(!content){
+        throw new apiError(400,"content not found")
+    }
+
+    const tweet = await Tweet.create({
+        order:req.user?._id,
+        content:content,
+    })
+
+    if(!tweet){
+        throw new apiError(400,"tweet not posted")
+    }
+
+    return res
+    .status(200)
+    .json(
+        new apiResponse(200,tweet,"Tweet posted")
+    )
+
+
 })
 
 const getUserTweets = asyncHandler(async (req, res) => {

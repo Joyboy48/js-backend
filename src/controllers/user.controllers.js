@@ -5,6 +5,7 @@ import {uploadOnCloudinary} from "../utils/cloudinary.js"
 import {apiResponse} from "../utils/apiResponse.js"
 import {verifyJWT} from "../middlewares/auth.middlewares.js"
 import jwt from "jsonwebtoken"
+import mongoose from "mongoose"
 
 const generateAccessAndRefreshTokens = async(userId)=>{
     try {
@@ -353,13 +354,146 @@ const updateUserCoverImage = asyncHandler(async(req,res)=>{
     )
 })
 
-export {registerUser,
-    loginUser,
-    logoutUser,
-    refreshingAccessToken,
-    changeCurrentPassword,
-    getCurrentUser,
-    updateAccountDetails,
-    updateUserAvatar,
-    updateUserCoverImage
+//when an user seeing other user profile
+const getUserChannelProfile = asyncHandler(async(req,res)=>{
+    
+    // 1. get the username from the params(URL) front end
+    const {username} = req.params
+
+    if(!username?.trim()){
+        throw new apiError(400,"username missing")
+    }
+
+    const channel = await User.aggregate([
+        {
+            $match:{
+                username:username
+            }
+        },
+        {
+            $lookup:{
+                from:"subscriptions",
+                localField:"_id",
+                foreignField:"channel",
+                as:"subscribers"
+            }
+        },
+        {
+            $lookup:{
+                from:"subscriptions",
+                localField:"_id",
+                foreignField:"subscriber",
+                as:"subscribedTo"
+            }
+        },
+        {
+            $addFields:{
+                subscribersCount:{
+                    $size:"$subscribers"
+                },
+                subscribedToCount:{
+                    $size:"$subscribedTo"
+                },
+                isSubscribed:{
+                    $cond:{
+                        if:{
+                            $in:[req.user?._id,"$subscribers.subscriber"]
+                        },
+                        then:true,
+                        else:false
+                    }
+                }
+            }
+        },
+        {
+            $project:{
+                fullName:1,
+                username:1,
+                email:1,
+                subscribersCount:1,
+                subscribedToCount:1,
+                isSubscribed:1,
+                avatar:1,
+                coverImage:1,
+
+
+
+            }
+        }
+    ])
+
+    console.log(channel);
+
+    if(!channel?.length){
+        throw new apiError(400,"channel does not exists")
+    }
+
+    return res
+    .status(200)
+    .json(
+        new apiResponse(200,channel[0],"user channel fetched successfully")
+    )
+    
+})
+
+const getWatchHistory = asyncHandler(async(req,res)=>{
+ 
+    const user = await User.aggregate([
+        {
+            $match:{
+                _id: new mongoose.Types.ObjectId(req.user?._id) //req.user?._id  cannot use this because pipe line wala code direct jata hai so we need full id
+            }
+        },
+        {
+            $lookup:{
+                from:"videos",
+                localField:"watchHistory",
+                foreignField:"_id",
+                as:"watchHistory",
+                pipeline:[
+                    {   // get the owner of the video using nested pipeline and project the fields which we want to return 
+                        $lookup:{
+                            from:"users",
+                            localField:"owner",
+                            foreignField:"_id",
+                            as:"owner",
+                            pipeline:[
+                                {
+                                    $project:{
+                                        fullName:1,
+                                        username:1,
+                                        avatar:1,
+
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {   //it will just return object instead of array
+                        $addFields:{
+                            owner:{  // overwrite owner field with first element of owner array 
+                                $first:"$owner"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    ])
+
+    return res
+    .status(200)
+    .json(
+        new apiResponse(
+            200,
+            user[0].watchHistory,
+            "Watch history fetched successfullly"
+        )
+    )
+})
+
+export {registerUser, loginUser, logoutUser,
+    refreshingAccessToken, changeCurrentPassword, getCurrentUser,
+    updateAccountDetails, updateUserAvatar, updateUserCoverImage,
+    getUserChannelProfile ,getWatchHistory
 }

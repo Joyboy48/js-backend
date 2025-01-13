@@ -7,7 +7,7 @@ import {asyncHandler} from "../utils/asyncHandler.js"
 import { application } from "express"
 
 const createTweet = asyncHandler(async (req, res) => {
-    
+    //TODO: create tweet
     //1.get content
     //2.send it to db
     const {content} = req.body
@@ -35,7 +35,7 @@ const createTweet = asyncHandler(async (req, res) => {
 })
 
 const getUserTweets = asyncHandler(async (req, res) => {
-   
+    // TODO: get user tweets
     //get user id from params
     //find list of all tween from user
     //return
@@ -71,7 +71,7 @@ const getUserTweets = asyncHandler(async (req, res) => {
 })
 
 const updateTweet = asyncHandler(async (req, res) => {
-    
+    //TODO: update tweet
     // 1. get tweetId from params URL and content from req.body
     const {tweetId} = req.params
     const {content} = req.body
@@ -117,7 +117,7 @@ const updateTweet = asyncHandler(async (req, res) => {
 })
 
 const deleteTweet = asyncHandler(async (req, res) => {
-   
+    //TODO: delete tweet
 
     const {tweetId} = req.params
 

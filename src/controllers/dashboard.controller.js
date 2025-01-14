@@ -185,6 +185,22 @@ const getChannelStats = asyncHandler(async (req, res) => {
 
 const getChannelVideos = asyncHandler(async (req, res) => {
     // TODO: Get all the videos uploaded by the channel
+    
+    if (!req.user?._id) throw new apiError(404, "Unauthorized request");
+
+    const videos = await Video.find({
+        owner: req.user._id
+    })
+
+    if (!videos[0]) {
+        return res.status(200)
+            .json(new apiResponse(200, [], "No videos found"))
+    }
+
+    return res.status(200)
+        .json(new apiResponse(200, videos, "Total videos fetched successfully"))
+
+
 })
 
 export {

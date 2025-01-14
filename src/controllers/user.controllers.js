@@ -111,7 +111,7 @@ const registerUser = asyncHandler(async(req,res)=>{
 
 })
 
-const loginUser = asyncHandler(async(req,res)=>{
+const  loginUser = asyncHandler(async(req,res)=>{
 
     //req body => data
     //username or emali

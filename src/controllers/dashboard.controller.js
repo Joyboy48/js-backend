@@ -1,4 +1,4 @@
-import mongoose ,{isValidObjectId} from "mongoose"
+import mongoose ,{Aggregate, isValidObjectId} from "mongoose"
 import {Video} from "../models/video.model.js"
 import {Subscription} from "../models/subscription.model.js"
 import {Like} from "../models/like.model.js"
@@ -64,7 +64,7 @@ const getChannelStats = asyncHandler(async (req, res) => {
         }
     ])
 
-    const totalSubscriber = await Subscription.aggregate([
+    const totalSubscribers = await Subscription.aggregate([
         {
             $match:{
                 channel:new mongoose.Types.ObjectId(channelId)
@@ -160,6 +160,7 @@ const getChannelStats = asyncHandler(async (req, res) => {
         },
         {
             $count:"totalTweetsLiked"
+            
         }
     ])
 
@@ -168,17 +169,113 @@ const getChannelStats = asyncHandler(async (req, res) => {
     .json(
         new apiResponse(200,
             {
-                "totalViews": totalViewsAndVideos[ 0 ]?.totalViews,
-                "totalVideos": totalViewsAndVideos[ 0 ]?.totalVideos,
-                "totalSubs": totalSubscriber[ 0 ]?.totalSubcribers,
-                "totalTweets": totalTweets[ 0 ]?.totalTweets,
-                "totalComments": totalComments[ 0 ]?.totalComments,
-                "totalVideoLikes": totalVideoLikes[ 0 ]?.totalVideoLiked,
-                "totalCommentLikes": totalCommentLikes[ 0 ]?.totalCommentLiked,
-                "totalTweetLikes": totalTweetLikes[ 0 ]?.totalTweetLiked
+                "totalViews": totalViewsAndVideos[0]?.totalViews,
+                "totalVideos": totalViewsAndVideos[0]?.totalVideos,
+                "totalSubs": totalSubscribers[0]?.totalSubscribers,
+                "totalTweets": totalTweets[0]?.totalTweets,
+                "totalComments": totalComments[0]?.totalComments,
+                "totalVideoLikes": totalVideoLikes[0]?.totalVideosLiked,
+                "totalCommentLikes": totalCommentLikes[0]?.totalCommentsLiked,
+                "totalTweetLikes": totalTweetLikes[0]?.totalTweetsLiked
             }, "Stats of the channel fetched successfully"
         )
     )
+
+    // if (!req.user?._id) throw new apiError(404, "Unauthorized request");
+
+    // const userId = req.user?._id
+
+    // const channelStats = await Video.aggregate([
+    //     {
+    //         $match:{
+    //             owner:userId
+    //         }
+    //     },
+    //     // Lookup for Subscribers of a channel
+    //     {
+    //         $lookup:{
+    //             from:"subscriptions",
+    //             localField:"owner",
+    //             foreignField:"channel",
+    //             as:"subscribers"
+    //         },
+    //     },
+    //     // Lookup for the channel which the owner Subscribe
+    //     {
+    //         $lookup:{
+    //             from:"subscriptions",
+    //             localField:"owner",
+    //             foreignField:"subscriber",
+    //             as:"subscribedTo"
+    //         }
+    //     },
+    //     // Lookup likes for the user's videos
+    //     {
+    //         $lookup:{
+    //             from:"likes",
+    //             localField:"_id",
+    //             foreignField:"video",
+    //             as:"likedVideo"
+    //         }
+    //     },
+    //     // Lookup comments for the user's videos
+    //     {
+    //         $lookup:{
+    //             from:"comments",
+    //             localField:"_id",
+    //             foreignField:"video",
+    //             as:"videoComments"
+    //         }
+    //     },
+    //      // Lookup tweets by the user
+    //     {
+    //         $lookup:{
+    //             from:"tweets",
+    //             localField:"owner",
+    //             foreignField:"owner",
+    //             as:"tweets"
+    //         }
+    //     },
+    //     {
+    //         $group:{
+    //             _id: null,
+    //             totalVideo:{$sum:1},
+    //             totalView:{$sum:"$views"},
+    //             subscribers: { $first: "$subscribers" },
+    //             subscribedTo: { $first: "$subscribedTo" },
+    //             totalLikes: { $sum:  {$size: "$likedVideo"} },
+    //             totalComments: { $sum: { $size: "$videoComments" } },
+    //             totalTweets: { $first: { $size: "$tweets" } },
+
+    //         }
+    //     },
+    //     {
+    //         $project: {
+    //           _id: 0,
+    //           totalVideos: 1,
+    //           totalViews: 1,
+    //           subscribers: { $size: "$subscribers" },
+    //           subscribedTo: { $size: "$subscribedTo" },
+    //           totalLikes: 1,
+    //           totalComments: 1,
+    //           totalTweets: 1,
+    //         },
+    //       },
+
+
+    // ])
+
+    // return res
+    //     .status(200)
+    //     .json(
+    //       new apiResponse(
+    //         200,
+    //         channelStats,
+    //         "Channel stats fetched successfully"
+    //       )
+    //     );
+
+
 
     
 })
@@ -207,3 +304,4 @@ export {
     getChannelStats, 
     getChannelVideos
     }
+

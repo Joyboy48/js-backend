@@ -120,26 +120,129 @@ const getAllVideos = asyncHandler(async (req, res) => {
 
 })
 
+
+////////// Publish a video //////////
+// 1. Get the video file and thumbnail from the request body(frontend)
+// 2. upload video and thumbnail to loacl storage and get the path
+// 3. upload video and thumbnail to cloudinary 
+// 4. create a video document in the database
 const publishAVideo = asyncHandler(async (req, res) => {
     // TODO: get video, upload to cloudinary, create video
     try {
+        // 1. Get the video file and thumbnail from the request body(frontend)
         const { title, description} = req.body
-        
-    } catch (error) {
-        
+        if([title,description].some((field)=>field.trim() === "")){
+            throw new apiError(400,"please provider all given details")
+        }
+
+        // 2. upload video and thumbnail
+        const videoLocalPath = req.files?.videoFile[0]?.path
+        const thumbnailLocalPath = req.files?.thumbnail[0]?.path
+
+        if ( !videoLocalPath ) { throw new apiError( 400, "Please upload video" ) }
+        if ( !thumbnailLocalPath ) { throw new apiError( 400, "Please upload thumbnail" ) }
+
+        //3.upload on cloudinary
+        const videoOnCloudinary = await uploadOnCloudinary(videoLocalPath,"video")
+        const thumbnailOnCloudinary = await uploadOnCloudinary(thumbnailLocalPath,"img")
+
+        if ( !videoOnCloudinary ) { throw new apiError( 400, "video Uploading failed" ) }
+        if ( !thumbnailOnCloudinary ) { throw new apiError( 400, "video Uploading failed" ) }
+
+        // 4. create a video document in the database
+        const video = await Video.create({
+            title:title,
+            description: description,
+            thumbnail:thumbnailOnCloudinary?.url,
+            videoFile:videoOnCloudinary?.url,
+            duration:videoOnCloudinary?.duration,
+            isPublished:true,
+            owner:req.user?._id
+        })
+
+        if (!video) {
+            throw new apiError(400,"video uploading failed")
+        }
+
+        return res
+        .status(200)
+        .json(
+            new apiResponse(200,
+                video,
+                "video uploaded successfully"
+            )
+        )
+} catch (error) {
+        return res.status(501)
+        .json(  new apiResponse(501,{},"Problem in uplaoding video"))
     }
 
 })
 
+////////// Get a video by id //////////
+// 1. Get the video id from the request params(frontend)  [http://localhost:8000/api/v1/video/get-video/:videoId]
+// 2. Check if the videoId id is valid
+// 3. Find the video in the database
 const getVideoById = asyncHandler(async (req, res) => {
-    const { videoId } = req.params
-    //TODO: get video by id
+    try {
+        const { videoId } = req.params
+        //TODO: get video by id
+        if (!isValidObjectId(videoId)) {
+            throw new apiError(400,"Enter a valid videoId")
+        }
+        const video = await Video.findById(videoId)
+
+        if(!video){
+            throw new apiError(200,"failed to fetch video details")
+        }
+
+        return res.status(200)
+        .json(
+            new apiResponse(200,
+                video,
+                "video fetched successfully"
+            )
+        )
+
+    } catch (error) {
+        res.status(501)
+        .json(
+            new apiResponse(501,{},"video not found")
+        )
+    }
+
 })
 
 const updateVideo = asyncHandler(async (req, res) => {
-    const { videoId } = req.params
-    //TODO: update video details like title, description, thumbnail
+    try {
+        const { videoId } = req.params
+        //TODO: update video details like title, description, thumbnail
+        if(!isValidObjectId(videoId)){
+            throw new apiError(400,"Invaalid videoId")
+        }
 
+        const { title, description} = req.body
+        if([title,description].some((field)=>field.trim() === "")){
+            throw new apiError(400,"please provider all given details")
+        }
+
+        const video = await Video.findById(videoId)
+        if (!video) {
+            throw apiError(400,"videoId not found")
+        }
+
+        // 3.3 Check if the video is owned by the user [video.Owner.equals(req.user._id)] only owner can update the video
+        if(!video.owner.equals(req.user?._id)){
+            throw new apiError(400,"user not allowed to update")
+        }
+
+        
+
+
+    
+    } catch (error) {
+        
+    }
 })
 
 const deleteVideo = asyncHandler(async (req, res) => {

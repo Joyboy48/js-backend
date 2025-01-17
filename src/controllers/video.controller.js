@@ -143,8 +143,8 @@ const publishAVideo = asyncHandler(async (req, res) => {
         if ( !thumbnailLocalPath ) { throw new apiError( 400, "Please upload thumbnail" ) }
 
         //3.upload on cloudinary
-        const videoOnCloudinary = await uploadOnCloudinary(videoLocalPath,"video")
-        const thumbnailOnCloudinary = await uploadOnCloudinary(thumbnailLocalPath,"img")
+        const videoOnCloudinary = await uploadOnCloudinary(videoLocalPath,"myTube/video")
+        const thumbnailOnCloudinary = await uploadOnCloudinary(thumbnailLocalPath,"myTube/thumbnail")
 
         if ( !videoOnCloudinary ) { throw new apiError( 400, "video Uploading failed" ) }
         if ( !thumbnailOnCloudinary ) { throw new apiError( 400, "video Uploading failed" ) }
@@ -272,9 +272,46 @@ const updateVideo = asyncHandler(async (req, res) => {
     }
 })
 
+////////// Delete a video //////////
+// 1. Get the videoId from the request params(frontend)  [http://localhost:8000/api/v1/video/delete-video/:videoId]
+// 2. find the video in the database by videoId and delete it
+// 2.2. Check if the video is owned by the user [video.Owner.equals(req.user._id)] only owner can delete the video
+// 3. delete the videoFile and thumbnail from cloudinary
+// 4. Delete the video document from the database
+
 const deleteVideo = asyncHandler(async (req, res) => {
     const { videoId } = req.params
     //TODO: delete video
+    if(!isValidObjectId(videoId)){
+        throw new apiError(400,"invalid videoId")
+    }
+
+    const video = await Video.findById(videoId)
+    if(!video){
+        throw new apiError(400,"videoId not found")
+    }
+
+    if(!video.owner.equals(req.user?._id)){
+        throw new apiError(400,"user not allowed to delete")
+    }
+
+    const videoFile = await deleteFromCloudinary(video.videoFile,"myTube/video")
+    const thumbnailFile = await deleteFromCloudinary(video.thumbnail,"myTube/thumbnail")
+
+    if(!videoFile && !thumbnailFile){
+        throw new apiError(400,"thumbnail or videoFile is not deleted from cloudinary")
+    }
+
+     // 4. Delete the video document from the database
+     await video.deleteOne();  // .remove dont work with findOne it only works with findById 
+
+     return res.status(200)
+     .json(new apiResponse(
+        200,
+        {},
+        "video deleted successfully"
+     ))
+
 })
 
 const togglePublishStatus = asyncHandler(async (req, res) => {

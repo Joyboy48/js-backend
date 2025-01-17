@@ -4,7 +4,7 @@ import {User} from "../models/user.models.js"
 import {apiError} from "../utils/apiError.js"
 import {apiResponse} from "../utils/apiResponse.js"
 import {asyncHandler} from "../utils/asyncHandler.js"
-import {uploadOnCloudinary} from "../utils/cloudinary.js"
+import {uploadOnCloudinary,deleteFromCloudinary} from "../utils/cloudinary.js"
 import { pipeline } from "stream"
 import { read } from "fs"
 
@@ -236,11 +236,38 @@ const updateVideo = asyncHandler(async (req, res) => {
             throw new apiError(400,"user not allowed to update")
         }
 
-        
+        const thumbnailLocalPath = req.file?.path
+        if(!thumbnailLocalPath){throw new apiError(400,"thumbnail not found")}
+
+        const thumbnailOnCloudinary = await uploadOnCloudinary(thumbnailLocalPath,"myTube/thumbnail")
+        if(!thumbnailOnCloudinary){throw new apiError(400,"error while uploading on cloudinary")}
+
+        //delete
+        const thumbnailOldUrl = video?.thumbnail
+        const deleteThumbnail =await deleteFromCloudinary(thumbnailOldUrl,"myTube/thumbnail")
+        if(!deleteThumbnail){throw new apiError(400,"thumbnail not deleted")}
+
+        video.title=title,
+        video.description=description,
+        video.thumbnail=thumbnailOnCloudinary.url
+        await video.save()
+
+        return res
+        .status(200)
+        .json(
+            new apiResponse(200,
+                video,
+                "video details updated successfuly"
+            )
+        )
+
 
 
     
     } catch (error) {
+        console.log(error.stack);
+        return res.status(500)
+        .json(new apiResponse(500,{},"video details not updated"))
         
     }
 })

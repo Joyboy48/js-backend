@@ -1,5 +1,6 @@
 import {v2 as cloudinary} from "cloudinary"
 import fs from "fs"
+import { extractPublicId } from "cloudinary-build-url";
 
 // Configuration
 cloudinary.config({ 
@@ -8,11 +9,12 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET 
 });
 
-const uploadOnCloudinary = async(localFilePath)=>{
+const uploadOnCloudinary = async(localFilePath,path)=>{
     try {
         if (!localFilePath) return null 
         //upload on cloudinary
         const response = await cloudinary.uploader.upload(localFilePath,{
+            folder:path,
             resource_type:"auto"
         })
         //file uploaded
@@ -29,5 +31,27 @@ const uploadOnCloudinary = async(localFilePath)=>{
     }
 }
 
+const deleteFromCloudinary = async(cloudinaryUrl,path)=>{
+    try {
+        if (!cloudinaryUrl) {
+            throw new Error('Cloudinary URL is required');
+          }
+          ///get publicId
+      const publicId = extractPublicId(cloudinaryUrl)
 
-export {uploadOnCloudinary}
+      //destroy
+      const response = await cloudinary.uploader.destroy(publicId,{folder:path});
+
+      console.log('Successfully deleted:', publicId);
+      return response;
+
+
+
+    } catch (error) {
+        console.error('Error deleting from Cloudinary:', error.message);
+      throw error;
+    }
+}
+
+
+export {uploadOnCloudinary,deleteFromCloudinary}

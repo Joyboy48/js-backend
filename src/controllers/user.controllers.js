@@ -78,9 +78,9 @@ const registerUser = asyncHandler(async(req,res)=>{
         throw new apiError(400,"Avatar file is required")
     }
 
-    //uppload on cloudinary
-    const avatar = await uploadOnCloudinary(avatarLocalPath)
-    const coverImage = await uploadOnCloudinary(coverImageLocalPath)
+    //upload on cloudinary
+    const avatar = await uploadOnCloudinary(avatarLocalPath, "myTube/avatar")
+    const coverImage = await uploadOnCloudinary(coverImageLocalPath, "myTube/coverImage")
 
     //check
     if(!avatar){
@@ -307,7 +307,7 @@ const updateUserAvatar = asyncHandler(async(req,res)=>{
         throw new apiError(400,"Avatar file is missing")
     }
 
-    const avatar = await uploadOnCloudinary(avatarLocalPath)
+    const avatar = await uploadOnCloudinary(avatarLocalPath,"myTube/avatar")
 
     if(!avatar){
         throw new apiError(400,"error while uploadig file to cloudinary")
@@ -334,7 +334,7 @@ const updateUserCoverImage = asyncHandler(async(req,res)=>{
         throw new apiError(400,"cover image file is missing")
     }
 
-    const coverImage = await uploadOnCloudinary(avatarLocalPath)
+    const coverImage = await uploadOnCloudinary(avatarLocalPath,"myTube/coverImage")
 
     if(!coverImage){
         throw new apiError(400,"error while uploadig file to cloudinary")

@@ -12,7 +12,43 @@ const getVideoComments = asyncHandler(async (req, res) => {
         throw new apiError(500,"invalid videoId")
     }
 
-    
+    let pipeline = [
+        {
+            $match:{
+                video:new mongoose.Types.ObjectId(videoId)
+            }
+        }
+    ]
+
+    const options = {
+        page:parseInt(page),
+        limit:parseInt(limit),
+        customLabels:{
+            totalDocs:"total_coments",
+            docs:"comments"
+        }
+
+    }
+
+    const allComments = await Comment.aggregatePaginate(pipeline,options)
+
+    if(allComments?.total_coments === 0){
+        throw new apiError(400,"comment not found")
+    }
+
+    return res
+    .status(200)
+    .json(
+        new apiResponse(
+            200,
+            {
+                "comments":allComments,
+                "size":allComments.length
+            },
+            "comments fetched successfully"
+
+        )
+    )
 
 })
 
@@ -31,7 +67,7 @@ const addComment = asyncHandler(async (req, res) => {
 
     const comment = await Comment.create({
         content:content,
-        videoId:videoId,
+        video:videoId,
         owner:new mongoose.Types.ObjectId(req.user?._id)
     })
 

@@ -47,7 +47,7 @@ const toggleSubscription = asyncHandler(async (req, res) => {
 const getUserChannelSubscribers = asyncHandler(async (req, res) => {
     const {subscriberId} = req.params //subscriberId represents the ID of the channel whose subscribers are being fetched.
     if (!isValidObjectId(subscriberId)) {
-        throw new ApiError(400, "Invalid Subscriber ID");
+        throw new apiError(400, "Invalid Subscriber ID");
       }
       const subscribersList = await Subscription.aggregate([
         {

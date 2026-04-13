@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/v1/(.*)",
+      "destination": "https://zootube-backend.onrender.com/api/v1/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

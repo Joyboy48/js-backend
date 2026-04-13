@@ -15,7 +15,7 @@
   html { scroll-behavior: smooth; }
 
   body {
-    @apply bg-background text-white antialiased;
+    @apply dark:bg-background dark:text-white bg-gray-50 text-gray-900 antialiased transition-colors duration-300;
     font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     overflow-x: hidden;
     cursor: none;
@@ -40,16 +40,26 @@
 @layer components {
   /* === GLASS MORPHISM === */
   .glass {
-    background: rgba(10, 10, 16, 0.75);
+    background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(24px) saturate(200%);
     -webkit-backdrop-filter: blur(24px) saturate(200%);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+  }
+  
+  .dark .glass {
+    background: rgba(10, 10, 16, 0.75);
     border: 1px solid rgba(255, 255, 255, 0.06);
   }
 
   .glass-light {
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(0, 0, 0, 0.03);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+  }
+
+  .dark .glass-light {
+    background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.07);
   }
 
@@ -57,6 +67,10 @@
     transition: background 0.2s, border-color 0.2s;
   }
   .glass-hover:hover {
+    background: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+  .dark .glass-hover:hover {
     background: rgba(255, 255, 255, 0.07);
     border-color: rgba(255, 255, 255, 0.12);
   }

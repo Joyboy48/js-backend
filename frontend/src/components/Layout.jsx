@@ -6,7 +6,7 @@ import AuroraBackground from "./InteractiveBackground";
 
 const Layout = () => {
   return (
-    <div className="relative min-h-screen bg-[#070709] text-white overflow-x-hidden">
+    <div className="relative min-h-screen bg-gray-50 dark:bg-[#070709] text-gray-900 dark:text-white overflow-x-hidden transition-colors duration-300">
       {/* ── DYNAMIC CANVAS BACKGROUND ── */}
       <AuroraBackground />
 

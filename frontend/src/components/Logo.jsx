@@ -1,8 +1,10 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useTheme } from "./../context/ThemeContext";
 
 const Logo = ({ size = "sm" }) => {
+  const { theme } = useTheme();
   // Configs for different sizes (Navbar vs Auth Pages)
   const isLarge = size === "lg";
   const containerClass = isLarge ? "w-16 h-16 rounded-[1.5rem]" : "w-11 h-11 rounded-2xl";
@@ -65,7 +67,11 @@ const Logo = ({ size = "sm" }) => {
       {/* Brand Text */}
       <div className={`flex items-center tracking-tight font-outfit font-black ${textSize}`}>
         <motion.span 
-           animate={{ color: ["#ffffff", "#fbcfe8", "#ffffff"] }}
+           animate={{ 
+             color: theme === "dark" 
+               ? ["#ffffff", "#fbcfe8", "#ffffff"] 
+               : ["#111827", "#db2777", "#111827"] 
+           }}
            transition={{ duration: 3, repeat: Infinity }}
         >
           zoo

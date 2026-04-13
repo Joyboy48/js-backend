@@ -186,7 +186,7 @@ export const VideoCard = ({ video, compact = false }) => {
   /* ── Compact variant ── */
   if (compact) {
     return (
-      <Link to={`/video/${_id}`} className="flex gap-3 group p-2 rounded-xl hover:bg-white/5 transition-all card-hover">
+      <Link to={`/video/${_id}`} className="flex gap-3 group p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-white/5 transition-all card-hover">
         <div className="relative shrink-0 w-36 aspect-video rounded-lg overflow-hidden">
           <img src={thumbnail} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
           {duration && (
@@ -196,9 +196,9 @@ export const VideoCard = ({ video, compact = false }) => {
           )}
         </div>
         <div className="flex-1 min-w-0 pt-0.5">
-          <h4 className="text-sm font-semibold text-white/80 group-hover:text-white line-clamp-2 leading-snug transition-colors">{title}</h4>
-          <p className="text-xs text-white/40 mt-1">{owner?.fullName}</p>
-          <p className="text-xs text-white/25 mt-0.5">{formatNum(views)} views</p>
+          <h4 className="text-sm font-semibold text-gray-800 dark:text-white/80 group-hover:text-gray-950 dark:group-hover:text-white line-clamp-2 leading-snug transition-colors">{title}</h4>
+          <p className="text-xs text-gray-500 dark:text-white/40 mt-1">{owner?.fullName}</p>
+          <p className="text-xs text-gray-400 dark:text-white/25 mt-0.5">{formatNum(views)} views</p>
         </div>
       </Link>
     );
@@ -274,14 +274,14 @@ export const VideoCard = ({ video, compact = false }) => {
             <img
               src={owner?.avatar || `https://api.dicebear.com/7.x/initials/svg?seed=${owner?.fullName}`}
               alt={owner?.fullName}
-              className="w-8 h-8 rounded-xl object-cover ring-1 ring-white/8 group-hover:ring-primary/40 transition-all duration-300 shrink-0 mt-0.5"
+              className="w-8 h-8 rounded-xl object-cover ring-1 ring-gray-200 dark:ring-white/8 group-hover:ring-primary/40 transition-all duration-300 shrink-0 mt-0.5"
             />
             <div className="flex-1 min-w-0">
-              <h3 className="text-sm font-semibold text-white/85 group-hover:text-white line-clamp-2 leading-snug transition-colors">
+              <h3 className="text-sm font-semibold text-gray-800 dark:text-white/85 group-hover:text-gray-950 dark:group-hover:text-white line-clamp-2 leading-snug transition-colors">
                 {title || "Untitled Video"}
               </h3>
-              <p className="text-xs text-white/35 mt-1">{owner?.fullName}</p>
-              <p className="text-xs text-white/25 mt-0.5">{formatNum(views)} views · {timeAgo(createdAt)}</p>
+              <p className="text-xs text-gray-500 dark:text-white/35 mt-1">{owner?.fullName}</p>
+              <p className="text-xs text-gray-400 dark:text-white/25 mt-0.5">{formatNum(views)} views · {timeAgo(createdAt)}</p>
             </div>
           </div>
         </Link>

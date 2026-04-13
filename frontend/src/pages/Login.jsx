@@ -37,7 +37,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#070709] bg-background flex items-center justify-center relative overflow-hidden p-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#070709] flex items-center justify-center relative overflow-hidden p-4 transition-colors duration-300">
       <AuroraBackground />
       <CustomCursor />
       {/* Background */}
@@ -65,7 +65,7 @@ const Login = () => {
           <div className="flex justify-center mb-6">
              <Logo size="lg" />
           </div>
-        <p className="text-sm text-white/40 mt-1">Sign in to zooTube</p>
+        <p className="text-sm text-gray-500 dark:text-white/40 mt-1">Sign in to zooTube</p>
         </motion.div>
 
         {/* Card */}
@@ -78,36 +78,36 @@ const Login = () => {
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Email/Username */}
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-white/50 uppercase tracking-widest">
+              <label className="text-xs font-medium text-gray-500 dark:text-white/50 uppercase tracking-widest">
                 Email or Username
               </label>
               <div className="relative">
-                <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" />
+                <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-white/30" />
                 <input
                   type="text"
                   required
                   placeholder="you@example.com"
                   value={form.usernameOrEmail}
                   onChange={(e) => setForm({ ...form, usernameOrEmail: e.target.value })}
-                  className="w-full bg-white/5 border border-white/8 rounded-xl pl-11 pr-4 py-3 text-sm text-white placeholder:text-white/20 outline-none focus:border-primary/50 focus:bg-white/8 transition-all"
+                  className="w-full bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/8 rounded-xl pl-11 pr-4 py-3 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-white/20 outline-none focus:border-primary/50 focus:bg-white dark:focus:bg-white/8 transition-all"
                 />
               </div>
             </div>
 
             {/* Password */}
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-white/50 uppercase tracking-widest">
+              <label className="text-xs font-medium text-gray-500 dark:text-white/50 uppercase tracking-widest">
                 Password
               </label>
               <div className="relative">
-                <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" />
+                <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-white/30" />
                 <input
                   type="password"
                   required
                   placeholder="••••••••"
                   value={form.password}
                   onChange={(e) => setForm({ ...form, password: e.target.value })}
-                  className="w-full bg-white/5 border border-white/8 rounded-xl pl-11 pr-4 py-3 text-sm text-white placeholder:text-white/20 outline-none focus:border-primary/50 focus:bg-white/8 transition-all"
+                  className="w-full bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/8 rounded-xl pl-11 pr-4 py-3 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-white/20 outline-none focus:border-primary/50 focus:bg-white dark:focus:bg-white/8 transition-all"
                 />
               </div>
             </div>
@@ -133,7 +133,7 @@ const Login = () => {
 
           {/* Footer */}
           <div className="mt-6 text-center">
-            <p className="text-sm text-white/30">
+            <p className="text-sm text-gray-500 dark:text-white/30">
               Don&apos;t have an account?{" "}
               <Link to="/register" className="text-primary hover:text-primary/80 font-medium transition-colors">
                 Create one

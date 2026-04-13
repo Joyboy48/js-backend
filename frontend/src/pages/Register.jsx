@@ -65,7 +65,7 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#070709] bg-background flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden text-white">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#070709] flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden text-gray-900 dark:text-white transition-colors duration-300">
       <AuroraBackground />
       <CustomCursor />
       <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[50%] bg-accent/20 blur-[150px] rounded-full pointer-events-none" />
@@ -80,7 +80,7 @@ const Register = () => {
         <div className="flex justify-center mb-6">
            <Logo size="lg" />
         </div>
-        <p className="mt-2 text-center text-sm text-gray-400">
+        <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
           Already have an account?{" "}
           <Link to="/login" className="font-medium text-accent hover:text-accent/80 transition-colors">
             Sign in
@@ -94,7 +94,7 @@ const Register = () => {
         transition={{ duration: 0.5, delay: 0.1 }}
         className="mt-8 sm:mx-auto sm:w-full sm:max-w-xl z-10"
       >
-        <div className="glass py-8 px-4 shadow-2xl sm:rounded-2xl sm:px-10 border border-white/10">
+        <div className="glass py-8 px-4 shadow-2xl sm:rounded-2xl sm:px-10 border border-gray-200 dark:border-white/10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             
             {/* Image Uploaders */}
@@ -132,14 +132,14 @@ const Register = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                <label className="block text-sm font-medium text-gray-300">Full Name</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Full Name</label>
                 <div className="mt-2 relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <User className="h-5 w-5 text-gray-500" />
+                    <User className="h-5 w-5 text-gray-400 dark:text-gray-500" />
                     </div>
                     <input
                     type="text" required
-                    className="appearance-none block w-full pl-10 px-3 py-2.5 border border-white/10 rounded-xl bg-white/5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all sm:text-sm"
+                    className="appearance-none block w-full pl-10 px-3 py-2.5 border border-gray-200 dark:border-white/10 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all sm:text-sm"
                     placeholder="John Doe"
                     value={formData.fullName}
                     onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
@@ -148,12 +148,12 @@ const Register = () => {
                 </div>
 
                 <div>
-                <label className="block text-sm font-medium text-gray-300">Username</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Username</label>
                 <div className="mt-2 relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500">@</div>
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 dark:text-gray-500">@</div>
                     <input
                     type="text" required
-                    className="appearance-none block w-full pl-10 px-3 py-2.5 border border-white/10 rounded-xl bg-white/5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all sm:text-sm"
+                    className="appearance-none block w-full pl-10 px-3 py-2.5 border border-gray-200 dark:border-white/10 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all sm:text-sm"
                     placeholder="johndoe"
                     value={formData.username}
                     onChange={(e) => setFormData({ ...formData, username: e.target.value.toLowerCase() })}
@@ -163,14 +163,14 @@ const Register = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300">Email address</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Email address</label>
               <div className="mt-2 relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-500" />
+                  <Mail className="h-5 w-5 text-gray-400 dark:text-gray-500" />
                 </div>
                 <input
                   type="email" required
-                  className="appearance-none block w-full pl-10 px-3 py-2.5 border border-white/10 rounded-xl bg-white/5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all sm:text-sm"
+                  className="appearance-none block w-full pl-10 px-3 py-2.5 border border-gray-200 dark:border-white/10 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all sm:text-sm"
                   placeholder="john@example.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -179,14 +179,14 @@ const Register = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300">Password</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
               <div className="mt-2 relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-500" />
+                  <Lock className="h-5 w-5 text-gray-400 dark:text-gray-500" />
                 </div>
                 <input
                   type="password" required
-                  className="appearance-none block w-full pl-10 px-3 py-2.5 border border-white/10 rounded-xl bg-white/5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all sm:text-sm"
+                  className="appearance-none block w-full pl-10 px-3 py-2.5 border border-gray-200 dark:border-white/10 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all sm:text-sm"
                   placeholder="••••••••"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}

@@ -1,14 +1,16 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Search, Bell, Upload, LogOut, User, X, Menu } from "lucide-react";
+import { Search, Bell, Upload, LogOut, User, X, Menu, Sun, Moon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 import toast from "react-hot-toast";
 import api from "../api/axios";
 import Logo from "./Logo";
 
 const Navbar = () => {
   const { currentUser, logoutContext } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [search, setSearch] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -151,6 +153,16 @@ const Navbar = () => {
             {currentUser && (
               <span className="absolute top-2 right-2 w-1.5 h-1.5 bg-accent rounded-full shadow-[0_0_6px_rgba(244,63,94,0.8)]" />
             )}
+          </motion.button>
+
+          {/* Theme Toggle */}
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={toggleTheme}
+            className="p-2 sm:p-2.5 rounded-xl glass text-gray-800 dark:text-white/60 hover:text-gray-900 dark:hover:text-white transition-colors relative card-hover"
+          >
+            {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
           </motion.button>
 
           {/* Upload */}

@@ -34,9 +34,9 @@ const FloatingDock = () => {
           return (
             <Link key={item.path} to={item.path} className="relative group">
               {/* Tooltip */}
-              <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 rounded-lg bg-elevated text-xs font-medium text-white/80 whitespace-nowrap opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-100 transition-all duration-200 pointer-events-none border border-white/10">
+              <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 rounded-lg bg-white dark:bg-elevated text-xs font-medium text-gray-800 dark:text-white/80 whitespace-nowrap opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-100 transition-all duration-200 pointer-events-none border border-gray-200 dark:border-white/10">
                 {item.label}
-                <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white/10" />
+                <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-200 dark:border-t-white/10" />
               </div>
 
               <motion.div
@@ -45,7 +45,7 @@ const FloatingDock = () => {
                 className={`relative flex items-center justify-center w-11 h-11 rounded-xl transition-all duration-200 ${
                   isActive
                     ? "bg-primary/20 text-primary"
-                    : "text-white/40 hover:text-white/80 hover:bg-white/6"
+                    : "text-gray-500 dark:text-white/40 hover:text-gray-900 dark:hover:text-white/80 hover:bg-gray-100 dark:hover:bg-white/6"
                 }`}
               >
                 <Icon size={20} strokeWidth={isActive ? 2.5 : 1.8} />

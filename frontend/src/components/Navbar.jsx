@@ -87,12 +87,12 @@ const Navbar = () => {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search videos, creators..."
-                  className="flex-1 bg-transparent text-sm text-white placeholder:text-white/30 outline-none"
+                  className="flex-1 bg-transparent text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-white/30 outline-none"
                 />
                 <button
                   type="button"
                   onClick={() => { setSearchOpen(false); setSearch(""); }}
-                  className="text-white/30 hover:text-white/80 transition-colors card-hover"
+                  className="text-gray-400 dark:text-white/30 hover:text-gray-700 dark:hover:text-white/80 transition-colors card-hover"
                 >
                   <X size={16} />
                 </button>
@@ -116,7 +116,7 @@ const Navbar = () => {
                     className={`px-4 py-1.5 rounded-xl text-sm font-semibold transition-all duration-200 card-hover ${
                       isActive(item.path)
                         ? "bg-primary/20 text-primary"
-                        : "text-white/50 hover:text-white/90"
+                        : "text-gray-500 dark:text-white/50 hover:text-gray-900 dark:hover:text-white/90"
                     }`}
                   >
                     {item.label}
@@ -124,13 +124,13 @@ const Navbar = () => {
                 ))}
 
                 {/* Divider */}
-                <div className="w-px h-5 bg-white/10 mx-1" />
+                <div className="w-px h-5 bg-gray-300 dark:bg-white/10 mx-1" />
 
                 {/* Search trigger */}
                 <motion.button
                   whileTap={{ scale: 0.92 }}
                   onClick={() => setSearchOpen(true)}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-white/40 hover:text-white/80 hover:bg-white/8 transition-all text-sm card-hover"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-gray-500 dark:text-white/40 hover:text-gray-900 dark:hover:text-white/80 hover:bg-gray-100 dark:hover:bg-white/8 transition-all text-sm card-hover"
                 >
                   <Search size={15} />
                   <span className="hidden sm:block text-xs">Search...</span>
@@ -147,7 +147,7 @@ const Navbar = () => {
           <motion.button
             whileTap={{ scale: 0.88 }}
             onClick={() => toast("No new notifications", { icon: "🔔" })}
-            className="relative p-2.5 rounded-xl glass text-white/40 hover:text-white/80 transition-colors card-hover"
+            className="relative p-2.5 rounded-xl glass text-gray-500 dark:text-white/40 hover:text-gray-900 dark:hover:text-white/80 transition-colors card-hover"
           >
             <Bell size={18} />
             {currentUser && (
@@ -171,7 +171,7 @@ const Navbar = () => {
               <motion.div
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.95 }}
-                className="hidden sm:flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl glass text-white/50 hover:text-white/90 transition-all text-sm font-semibold card-hover"
+                className="hidden sm:flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl glass text-gray-500 dark:text-white/50 hover:text-gray-900 dark:hover:text-white/90 transition-all text-sm font-semibold card-hover"
               >
                 <Upload size={15} />
                 <span className="hidden md:block">Upload</span>
@@ -185,7 +185,7 @@ const Navbar = () => {
               <motion.button
                 whileTap={{ scale: 0.92 }}
                 onClick={() => setMenuOpen(!menuOpen)}
-                className="flex items-center gap-2 pl-1 pr-3 py-1.5 rounded-2xl glass hover:bg-white/8 transition-all card-hover"
+                className="flex items-center gap-2 pl-1 pr-3 py-1.5 rounded-2xl glass hover:bg-gray-100 dark:hover:bg-white/8 transition-all card-hover"
               >
                 <div className="w-8 h-8 rounded-xl overflow-hidden ring-2 ring-primary/20">
                   <img
@@ -195,7 +195,7 @@ const Navbar = () => {
                     onError={(e) => { e.target.src = `https://api.dicebear.com/7.x/initials/svg?seed=${currentUser.fullName}`; }}
                   />
                 </div>
-                <span className="hidden md:block text-sm font-semibold text-white/80 max-w-[80px] truncate">
+                <span className="hidden md:block text-sm font-semibold text-gray-700 dark:text-white/80 max-w-[80px] truncate">
                   {currentUser.fullName?.split(" ")[0]}
                 </span>
               </motion.button>
@@ -210,15 +210,15 @@ const Navbar = () => {
                     className="absolute right-0 top-full mt-2 w-56 glass rounded-2xl py-2 shadow-[0_20px_60px_rgba(0,0,0,0.6)] overflow-hidden"
                   >
                     {/* User info header */}
-                    <div className="px-4 py-3 border-b border-white/6 mb-1">
-                      <p className="text-sm font-bold text-white truncate">{currentUser.fullName}</p>
-                      <p className="text-xs text-white/40 truncate mt-0.5">@{currentUser.username}</p>
+                    <div className="px-4 py-3 border-b border-gray-200 dark:border-white/6 mb-1">
+                      <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{currentUser.fullName}</p>
+                      <p className="text-xs text-gray-500 dark:text-white/40 truncate mt-0.5">@{currentUser.username}</p>
                     </div>
 
                     <Link
                       to={`/c/${currentUser.username}`}
                       onClick={() => setMenuOpen(false)}
-                      className="flex items-center gap-3 px-4 py-2.5 text-sm text-white/65 hover:text-white hover:bg-white/6 transition-all card-hover"
+                      className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-white/65 hover:text-gray-950 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/6 transition-all card-hover"
                     >
                       <User size={15} className="text-secondary" />
                       My Channel

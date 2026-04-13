@@ -47,15 +47,17 @@ const InteractiveBackground = () => {
     window.addEventListener("resize", resize);
 
     const draw = () => {
-      // Very dark base background
-      ctx.fillStyle = "#070709";
+      const isDark = document.documentElement.classList.contains("dark");
+
+      // Set base background depending on theme
+      ctx.fillStyle = isDark ? "#070709" : "#f9fafb"; // dark mode hex or gray-50
       ctx.fillRect(0, 0, w, h);
 
       // Add a very subtle, soft radial glow matching the mouse position
       // This gives an incredibly premium interactive feel without being distracting
       const gradient = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 600);
-      gradient.addColorStop(0, "rgba(99, 102, 241, 0.05)"); // Extremely faint indigo
-      gradient.addColorStop(1, "rgba(7, 7, 9, 0)");
+      gradient.addColorStop(0, isDark ? "rgba(99, 102, 241, 0.05)" : "rgba(99, 102, 241, 0.03)"); // Extremely faint indigo
+      gradient.addColorStop(1, isDark ? "rgba(7, 7, 9, 0)" : "rgba(249, 250, 251, 0)");
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, w, h);
 
@@ -80,11 +82,11 @@ const InteractiveBackground = () => {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha})`;
+        ctx.fillStyle = isDark ? `rgba(255, 255, 255, ${p.alpha})` : `rgba(0, 0, 0, ${p.alpha * 0.5})`;
         
         // Add a tiny bit of blur/glow to particles
         ctx.shadowBlur = p.radius * 3;
-        ctx.shadowColor = "rgba(255, 255, 255, 0.5)";
+        ctx.shadowColor = isDark ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.2)";
         
         ctx.fill();
         
@@ -95,7 +97,7 @@ const InteractiveBackground = () => {
       // Add subtle vignetting (dark corners) to focus the center
       const vignette = ctx.createRadialGradient(w/2, h/2, h*0.4, w/2, h/2, h*0.9);
       vignette.addColorStop(0, "transparent");
-      vignette.addColorStop(1, "rgba(0,0,0,0.6)");
+      vignette.addColorStop(1, isDark ? "rgba(0,0,0,0.6)" : "rgba(0,0,0,0.05)");
       ctx.fillStyle = vignette;
       ctx.fillRect(0,0,w,h);
 

@@ -41,8 +41,8 @@ const Subscriptions = () => {
           <Users size={28} className="text-secondary" />
         </div>
         <div className="z-10">
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white">Subscriptions</h1>
-          <p className="text-sm text-white/40 mt-1">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white">Subscriptions</h1>
+          <p className="text-sm text-gray-500 dark:text-white/40 mt-1">
             {loading ? "Loading..." : `${channels.length} channel${channels.length !== 1 ? "s" : ""} you follow`}
           </p>
         </div>
@@ -65,9 +65,9 @@ const Subscriptions = () => {
       {!loading && channels.length === 0 && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           className="flex flex-col items-center justify-center py-32 text-center">
-          <UserCheck size={64} className="text-white/10 mb-6" />
-          <h3 className="text-xl font-bold text-white/40">No subscriptions yet</h3>
-          <p className="text-sm text-white/25 mt-2">Channels you subscribe to will appear here</p>
+          <UserCheck size={64} className="text-gray-300 dark:text-white/10 mb-6" />
+          <h3 className="text-xl font-bold text-gray-400 dark:text-white/40">No subscriptions yet</h3>
+          <p className="text-sm text-gray-400 dark:text-white/25 mt-2">Channels you subscribe to will appear here</p>
           <Link to="/explore" className="mt-6 px-6 py-2.5 rounded-xl bg-secondary text-black text-sm font-semibold hover:bg-secondary/90 transition-colors">
             Explore Channels
           </Link>
@@ -87,7 +87,7 @@ const Subscriptions = () => {
               className="group"
             >
               <Link to={`/c/${chan.username}`}
-                className="flex flex-col items-center gap-3 p-5 glass rounded-2xl hover:bg-white/8 transition-all relative overflow-hidden card-hover"
+                className="flex flex-col items-center gap-3 p-5 glass rounded-2xl hover:bg-gray-100 dark:hover:bg-white/8 transition-all relative overflow-hidden card-hover"
               >
                 <div className="absolute inset-0 bg-gradient-to-b from-secondary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none rounded-2xl" />
 
@@ -95,7 +95,7 @@ const Subscriptions = () => {
                   <img
                     src={chan.avatar || `https://api.dicebear.com/7.x/initials/svg?seed=${chan.fullName}`}
                     alt={chan.fullName}
-                    className="w-16 h-16 rounded-full object-cover ring-2 ring-white/10 group-hover:ring-secondary/40 transition-all"
+                    className="w-16 h-16 rounded-full object-cover ring-2 ring-gray-200 dark:ring-white/10 group-hover:ring-secondary/40 transition-all"
                   />
                   <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-secondary/80 border-2 border-background flex items-center justify-center">
                     <CheckCircle size={10} className="text-white" />
@@ -103,11 +103,11 @@ const Subscriptions = () => {
                 </div>
 
                 <div className="text-center min-w-0 w-full">
-                  <p className="text-sm font-bold text-white truncate group-hover:text-secondary transition-colors">{chan.fullName}</p>
-                  <p className="text-xs text-white/35 truncate">@{chan.username}</p>
+                  <p className="text-sm font-bold text-gray-900 dark:text-white truncate group-hover:text-secondary transition-colors">{chan.fullName}</p>
+                  <p className="text-xs text-gray-500 dark:text-white/35 truncate">@{chan.username}</p>
                 </div>
 
-                <div className="flex items-center gap-1 text-xs text-white/25 group-hover:text-white/50 transition-colors">
+                <div className="flex items-center gap-1 text-xs text-gray-400 dark:text-white/25 group-hover:text-gray-700 dark:group-hover:text-white/50 transition-colors">
                   <ExternalLink size={11} />
                   <span>View Channel</span>
                 </div>

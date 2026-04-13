@@ -163,8 +163,8 @@ const Dashboard = () => {
   const VideoTable = ({ data, type }) => (
     data.length === 0 ? (
       <div className="flex flex-col items-center py-20 text-center">
-        <Film size={48} className="text-white/10 mb-4" />
-        <p className="text-white/40 font-semibold">No {type}s uploaded yet</p>
+        <Film size={48} className="text-gray-300 dark:text-white/10 mb-4" />
+        <p className="text-gray-400 dark:text-white/40 font-semibold">No {type}s uploaded yet</p>
         <button onClick={() => { setIsShort(type === "short"); setUploadModal(true); }}
           className="mt-4 px-5 py-2 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition-colors card-hover">
           Upload {type === "short" ? "⚡ Short" : "🎬 Video"}
@@ -174,7 +174,7 @@ const Dashboard = () => {
       <div className="overflow-x-auto rounded-2xl">
         <table className="w-full text-left text-sm">
           <thead>
-            <tr className="border-b border-white/6 text-white/35 text-xs uppercase tracking-widest">
+          <tr className="border-b border-gray-200 dark:border-white/6 text-gray-500 dark:text-white/35 text-xs uppercase tracking-widest">
               <th className="px-5 py-3 font-semibold">Content</th>
               <th className="px-5 py-3 font-semibold">Status</th>
               <th className="px-5 py-3 font-semibold">Date</th>
@@ -188,14 +188,14 @@ const Dashboard = () => {
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.04 }}
-                className="hover:bg-white/4 transition-colors group"
+              className="hover:bg-gray-50 dark:hover:bg-white/4 transition-colors group"
               >
                 <td className="px-5 py-3.5">
                   <div className="flex items-center gap-3 min-w-[260px]">
                     <div className={`relative shrink-0 overflow-hidden rounded-xl bg-surface ${type === "short" ? "w-10 h-[70px]" : "w-24 h-14"}`}>
                       <img src={v.thumbnail} alt={v.title} className="w-full h-full object-cover" />
                     </div>
-                    <p className="font-semibold text-white/80 line-clamp-2 text-sm leading-snug">{v.title}</p>
+                    <p className="font-semibold text-gray-700 dark:text-white/80 line-clamp-2 text-sm leading-snug">{v.title}</p>
                   </div>
                 </td>
                 <td className="px-5 py-3.5">
@@ -208,17 +208,17 @@ const Dashboard = () => {
                     {v.isPublished ? "Published" : "Draft"}
                   </span>
                 </td>
-                <td className="px-5 py-3.5 text-white/35 whitespace-nowrap">
+                <td className="px-5 py-3.5 text-gray-500 dark:text-white/35 whitespace-nowrap">
                   {new Date(v.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                 </td>
-                <td className="px-5 py-3.5 text-white/50 font-mono">{formatNum(v.views)}</td>
+                <td className="px-5 py-3.5 text-gray-600 dark:text-white/50 font-mono">{formatNum(v.views)}</td>
                 <td className="px-5 py-3.5">
                   <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button onClick={() => setEditModal(v)} className="p-2 rounded-lg glass-light hover:text-white text-white/40 transition-colors card-hover">
+                    <button onClick={() => setEditModal(v)} className="p-2 rounded-lg glass-light hover:text-gray-900 dark:hover:text-white text-gray-400 dark:text-white/40 transition-colors card-hover">
                       <Edit size={14} />
                     </button>
                     <button onClick={() => handleDelete(v._id)}
-                      className="p-2 rounded-lg hover:bg-accent/15 text-white/40 hover:text-accent transition-colors card-hover">
+                      className="p-2 rounded-lg hover:bg-accent/15 text-gray-400 dark:text-white/40 hover:text-accent transition-colors card-hover">
                       <Trash2 size={14} />
                     </button>
                   </div>
@@ -237,8 +237,8 @@ const Dashboard = () => {
       {/* ─── TOP BAR ─── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white">Creator Studio</h1>
-          <p className="text-sm text-white/35 mt-1">Manage your content and monitor performance</p>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white">Creator Studio</h1>
+          <p className="text-sm text-gray-500 dark:text-white/35 mt-1">Manage your content and monitor performance</p>
         </div>
         <motion.button
           whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
@@ -254,7 +254,7 @@ const Dashboard = () => {
         {TABS.map(({ id, label, icon: Icon }) => (
           <button key={id} onClick={() => setTab(id)}
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all card-hover ${
-              tab === id ? "bg-primary text-white shadow-[0_0_16px_rgba(99,102,241,0.4)]" : "text-white/40 hover:text-white/80"
+              tab === id ? "bg-primary text-white shadow-[0_0_16px_rgba(99,102,241,0.4)]" : "text-gray-500 dark:text-white/40 hover:text-gray-900 dark:hover:text-white/80"
             }`}
           >
             <Icon size={15} /> {label}

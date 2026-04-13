@@ -257,118 +257,129 @@ const VideoDetail = () => {
 
   return (
     <>
-      <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 max-w-screen-2xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] xl:grid-cols-[1fr_380px] gap-6">
+      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+        {video.thumbnail && (
+          <img 
+            src={video.thumbnail} 
+            alt="ambient-glow" 
+            className="w-full h-full object-cover opacity-15 dark:opacity-[0.15] blur-[120px] scale-150 transform-gpu" 
+          />
+        )}
+        <div className="absolute inset-0 bg-gray-50/70 dark:bg-[#070709]/80" />
+      </div>
 
-          {/* ══ LEFT: Player + Info ══ */}
-          <div className="space-y-4 min-w-0">
+      <div className="w-full px-4 sm:px-6 lg:px-8 max-w-[1600px] mx-auto pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] xl:grid-cols-[1fr_420px] gap-6 lg:gap-8 pt-4">
 
-            {/* Player */}
+          {/* ══ LEFT: Cinematic Player + Info ══ */}
+          <div className="space-y-6 min-w-0">
+
+            {/* Cinematic Player */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="relative w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-[0_20px_60px_rgba(0,0,0,0.8)]"
+              initial={{ opacity: 0, y: 12, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-full aspect-video rounded-3xl overflow-hidden bg-black shadow-[0_20px_60px_rgba(0,0,0,0.5)] dark:shadow-[0_20px_60px_rgba(0,0,0,0.9)] ring-1 ring-gray-200 dark:ring-white/10"
             >
               <video
                 src={video.videoFile}
                 controls autoPlay
                 poster={video.thumbnail}
-                className="w-full h-full"
+                className="w-full h-full object-contain bg-black"
               />
             </motion.div>
 
-            {/* Title + meta */}
-            <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-              <h1 className="text-xl sm:text-2xl font-bold text-white leading-snug">{video.title}</h1>
-              <div className="flex items-center gap-2 mt-1.5 text-sm text-white/35">
-                <Eye size={14} />
-                <span>{formatNum(video.views)} views</span>
-                <span>·</span>
-                <span>{formatDate(video.createdAt)}</span>
-              </div>
-            </motion.div>
-
-            {/* Actions Row */}
-            <motion.div
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15 }}
-              className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 py-3 border-y border-white/8"
+            {/* Title & Stats Island */}
+            <motion.div 
+              initial={{ opacity: 0, y: 15 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              transition={{ delay: 0.15, duration: 0.5 }}
+              className="glass rounded-3xl p-5 sm:p-6"
             >
-              {/* Channel */}
-              <div className="flex items-center gap-3">
-                <Link to={`/c/${video.owner?.username}`}>
-                  <img
-                    src={video.owner?.avatar || `https://api.dicebear.com/7.x/initials/svg?seed=${video.owner?.fullName}`}
-                    alt={video.owner?.fullName}
-                    className="w-11 h-11 rounded-xl object-cover ring-2 ring-white/10 hover:ring-primary/50 transition-all"
-                  />
-                </Link>
-                <div>
-                  <Link to={`/c/${video.owner?.username}`}
-                    className="flex items-center gap-1.5 text-sm font-semibold text-white hover:text-primary transition-colors">
-                    {video.owner?.fullName}
-                    <CheckCircle size={13} className="text-primary" />
+              <h1 className="text-xl sm:text-3xl font-extrabold text-gray-900 dark:text-white leading-tight">{video.title}</h1>
+              
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mt-4">
+                
+                {/* Channel & Sub */}
+                <div className="flex items-center gap-3">
+                  <Link to={`/c/${video.owner?.username}`}>
+                    <img
+                      src={video.owner?.avatar || `https://api.dicebear.com/7.x/initials/svg?seed=${video.owner?.fullName}`}
+                      alt={video.owner?.fullName}
+                      className="w-12 h-12 rounded-2xl object-cover ring-2 ring-gray-200 dark:ring-white/10 hover:ring-primary/50 transition-all shadow-md"
+                    />
                   </Link>
-                  <p className="text-xs text-white/35 mt-0.5">{formatNum(video.owner?.subscribersCount)} subscribers</p>
-                </div>
+                  <div className="flex flex-col justify-center">
+                    <Link to={`/c/${video.owner?.username}`}
+                      className="flex items-center gap-1.5 text-base font-bold text-gray-900 dark:text-white hover:text-primary transition-colors">
+                      {video.owner?.fullName}
+                      <CheckCircle size={14} className="text-primary" />
+                    </Link>
+                    <p className="text-xs font-medium text-gray-500 dark:text-white/40">{formatNum(video.owner?.subscribersCount)} subscribers</p>
+                  </div>
 
-                <motion.button
-                  whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
-                  onClick={handleSubscribe}
-                  className={`ml-2 flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all card-hover ${
-                    isSubscribed ? "glass-light text-white/60 hover:text-white" : "bg-white text-black hover:bg-gray-100 shadow-lg"
-                  }`}
-                >
-                  <Bell size={14} />
-                  {isSubscribed ? "Subscribed" : "Subscribe"}
-                </motion.button>
-              </div>
-
-              {/* Like + Share */}
-              <div className="flex items-center gap-2">
-                <div className="flex items-center glass-light rounded-xl overflow-hidden">
                   <motion.button
-                    whileTap={{ scale: 0.9 }} onClick={handleLike}
-                    className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium transition-all hover:bg-white/8 ${
-                      isLiked ? "text-primary" : "text-white/60"
+                    whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.95 }}
+                    onClick={handleSubscribe}
+                    className={`ml-4 flex items-center gap-2 px-5 py-2.5 rounded-2xl text-sm font-bold tracking-wide transition-all shadow-lg ${
+                      isSubscribed ? "bg-gray-200 dark:bg-white/10 text-gray-600 dark:text-white/60 hover:bg-gray-300 dark:hover:bg-white/20" : "bg-gray-900 text-white dark:bg-white dark:text-black hover:scale-105"
                     }`}
                   >
-                    <ThumbsUp size={16} fill={isLiked ? "currentColor" : "none"} />
+                    <Bell size={16} />
+                    {isSubscribed ? "Subscribed" : "Subscribe"}
+                  </motion.button>
+                </div>
+
+                {/* Actions group */}
+                <div className="flex items-center gap-2 bg-gray-100/80 dark:bg-white/5 rounded-2xl p-1 shadow-inner border border-gray-200/50 dark:border-white/5">
+                  <motion.button
+                    whileTap={{ scale: 0.9 }} onClick={handleLike}
+                    className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all hover:bg-white/50 dark:hover:bg-white/10 ${
+                      isLiked ? "text-primary" : "text-gray-700 dark:text-white/70"
+                    }`}
+                  >
+                    <ThumbsUp size={18} fill={isLiked ? "currentColor" : "none"} strokeWidth={2} />
                     <span>{formatNum(likesCount)}</span>
                   </motion.button>
-                  <div className="w-px h-6 bg-white/10" />
+                  <div className="w-[1.5px] h-6 bg-gray-300 dark:bg-white/10 rounded-full" />
                   <motion.button
                     whileTap={{ scale: 0.9 }}
                     onClick={() => setShareOpen(true)}
-                    className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white/60 hover:text-white/90 hover:bg-white/8 transition-all card-hover"
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-gray-700 dark:text-white/70 hover:bg-white/50 dark:hover:bg-white/10 transition-all"
                   >
-                    <Share2 size={16} />
+                    <Share2 size={18} strokeWidth={2} />
                     <span className="hidden sm:block">Share</span>
                   </motion.button>
-                  <div className="w-px h-6 bg-white/10" />
+                  <div className="w-[1.5px] h-6 bg-gray-300 dark:bg-white/10 rounded-full" />
                   <motion.button
                     whileTap={{ scale: 0.9 }}
                     onClick={() => setPlaylistOpen(true)}
-                    className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white/60 hover:text-white/90 hover:bg-white/8 transition-all card-hover"
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-gray-700 dark:text-white/70 hover:bg-white/50 dark:hover:bg-white/10 transition-all"
                   >
-                    <ListPlus size={16} />
-                    <span className="hidden sm:block">Save</span>
+                    <ListPlus size={18} strokeWidth={2} />
                   </motion.button>
                 </div>
               </div>
             </motion.div>
 
-            {/* Description */}
+            {/* Description Island */}
             <motion.div
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
-              className="glass-light rounded-2xl p-4 cursor-pointer"
+              initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, duration: 0.5 }}
+              className="bg-gray-100/50 dark:bg-white/5 backdrop-blur-md rounded-3xl p-5 sm:p-6 border border-gray-200/50 dark:border-white/5 cursor-pointer shadow-sm hover:shadow-md transition-shadow"
               onClick={() => setDescExpanded(p => !p)}
             >
-              <p className={`text-sm text-white/70 leading-relaxed whitespace-pre-wrap ${!descExpanded ? "line-clamp-3" : ""}`}>
+              <div className="flex items-center gap-4 text-sm font-bold text-gray-900 dark:text-white mb-3">
+                <span className="flex items-center gap-1.5 bg-gray-200/50 dark:bg-white/10 px-3 py-1 rounded-lg">
+                  <Eye size={16} /> {formatNum(video.views)} views
+                </span>
+                <span className="text-gray-500 dark:text-white/50">{formatDate(video.createdAt)}</span>
+              </div>
+              <p className={`text-sm text-gray-700 dark:text-white/70 leading-relaxed font-medium whitespace-pre-wrap ${!descExpanded ? "line-clamp-2" : ""}`}>
                 {video.description || "No description provided."}
               </p>
-              <button className="flex items-center gap-1 mt-2 text-xs text-white/40 hover:text-white/70 transition-colors">
-                {descExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
-                {descExpanded ? "Show less" : "Show more"}
+              <button className="flex items-center gap-1.5 mt-3 text-xs font-bold text-gray-900 dark:text-white hover:text-primary transition-colors uppercase tracking-wider">
+                {descExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                {descExpanded ? "Show less" : "Read more"}
               </button>
             </motion.div>
 
@@ -376,16 +387,16 @@ const VideoDetail = () => {
             <Comments videoId={id} />
           </div>
 
-          {/* ══ RIGHT: Recommended ══ */}
-          <div className="space-y-3">
-            <p className="text-xs font-bold text-white/30 uppercase tracking-widest px-1">Up Next</p>
-            <div className="space-y-1">
+          {/* ══ RIGHT: Up Next ══ */}
+          <div className="space-y-4">
+            <h3 className="text-base font-extrabold text-gray-900 dark:text-white px-2">Up Next</h3>
+            <div className="space-y-3">
               {recommended.slice(0, 14).map((rec, i) => (
                 <motion.div
                   key={rec._id}
-                  initial={{ opacity: 0, x: 12 }}
+                  initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.04, duration: 0.3 }}
+                  transition={{ delay: i * 0.05, duration: 0.4 }}
                 >
                   <VideoCard video={rec} compact />
                 </motion.div>

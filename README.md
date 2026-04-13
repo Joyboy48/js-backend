@@ -2,7 +2,7 @@
 
 A full-stack video streaming platform built with React, Node.js, Express, and MongoDB. Inspired by YouTube — designed to be better.
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-6366f1?style=for-the-badge&logo=vercel)](https://your-vercel-url.vercel.app)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-6366f1?style=for-the-badge&logo=vercel)](https://zootube.vercel.app)
 [![Backend](https://img.shields.io/badge/Backend-Render-22c55e?style=for-the-badge&logo=render)](https://your-backend-url.onrender.com)
 
 ---

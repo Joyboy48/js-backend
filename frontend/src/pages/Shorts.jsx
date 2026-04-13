@@ -121,7 +121,8 @@ const Shorts = () => {
   return (
     <div
       id="shorts-container"
-      className="fixed inset-0 z-20 bg-black dark:bg-black bg-gray-950 flex items-center justify-center"
+      className="fixed inset-0 z-20 flex items-center justify-center"
+      style={{ backgroundColor: '#0f0f0f' }}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >

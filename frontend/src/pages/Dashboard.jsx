@@ -280,22 +280,22 @@ const Dashboard = () => {
               <div className="glass rounded-2xl p-5">
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <p className="text-xs text-white/35 uppercase tracking-widest mb-0.5">Weekly Views</p>
-                    <p className="text-xl font-bold text-white">{formatNum(stats?.totalViews)}</p>
+                    <p className="text-xs text-gray-500 dark:text-white/35 uppercase tracking-widest mb-0.5">Weekly Views</p>
+                    <p className="text-xl font-bold text-gray-900 dark:text-white">{formatNum(stats?.totalViews)}</p>
                   </div>
                   <TrendingUp size={18} className="text-primary" />
                 </div>
                 <MiniChart data={chartData} color="#6366f1" />
                 <div className="flex justify-between mt-2">
                   {chartData.map((d, i) => (
-                    <p key={i} className="text-[10px] text-white/20 text-center flex-1">{d.label}</p>
+                    <p key={i} className="text-[10px] text-gray-400 dark:text-white/20 text-center flex-1">{d.label}</p>
                   ))}
                 </div>
               </div>
 
               {/* Content breakdown */}
               <div className="glass rounded-2xl p-5">
-                <p className="text-xs text-white/35 uppercase tracking-widest mb-4">Content Mix</p>
+                <p className="text-xs text-gray-500 dark:text-white/35 uppercase tracking-widest mb-4">Content Mix</p>
                 <div className="space-y-3">
                   {[
                     { label: "Videos", count: videos.length, color: "bg-primary", total: videos.length + shorts.length },
@@ -324,12 +324,12 @@ const Dashboard = () => {
                 {/* Top video */}
                 {videos[0] && (
                   <div className="mt-5 pt-4 border-t border-white/6">
-                    <p className="text-xs text-white/30 mb-2">Top Performing</p>
+                    <p className="text-xs text-gray-400 dark:text-white/30 mb-2">Top Performing</p>
                     <div className="flex items-center gap-3">
                       <img src={videos[0].thumbnail} alt="" className="w-14 h-9 rounded-lg object-cover" />
                       <div className="min-w-0">
-                        <p className="text-sm font-semibold text-white/80 truncate">{videos[0].title}</p>
-                        <p className="text-xs text-white/35">{formatNum(videos[0].views)} views</p>
+                        <p className="text-sm font-semibold text-gray-800 dark:text-white/80 truncate">{videos[0].title}</p>
+                        <p className="text-xs text-gray-500 dark:text-white/35">{formatNum(videos[0].views)} views</p>
                       </div>
                     </div>
                   </div>
@@ -339,8 +339,8 @@ const Dashboard = () => {
 
             {/* Recent Videos Preview */}
             <div className="glass rounded-2xl overflow-hidden">
-              <div className="flex items-center justify-between px-5 py-4 border-b border-white/6">
-                <p className="font-bold text-white/80">Recent Uploads</p>
+              <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-white/6">
+                <p className="font-bold text-gray-800 dark:text-white/80">Recent Uploads</p>
                 <button onClick={() => setTab("videos")} className="text-xs text-primary hover:text-primary/80 transition-colors card-hover">View all →</button>
               </div>
               <VideoTable data={[...videos, ...shorts].slice(0, 5)} type="video" />
@@ -352,11 +352,11 @@ const Dashboard = () => {
           <motion.div key="videos" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
             <div className="flex items-center justify-between mb-5">
               <div>
-                <h2 className="text-lg font-bold text-white">Your Videos</h2>
-                <p className="text-sm text-white/35">{videos.length} regular videos uploaded</p>
+                <h2 className="text-lg font-bold text-gray-900 dark:text-white">Your Videos</h2>
+                <p className="text-sm text-gray-500 dark:text-white/35">{videos.length} regular videos uploaded</p>
               </div>
               <button onClick={() => { setIsShort(false); setUploadModal(true); }}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl glass-light text-white/60 hover:text-white text-sm font-semibold transition-all card-hover">
+                className="flex items-center gap-2 px-4 py-2 rounded-xl glass-light text-gray-600 dark:text-white/60 hover:text-gray-900 dark:hover:text-white text-sm font-semibold transition-all card-hover">
                 <Upload size={14} /> Upload Video
               </button>
             </div>
@@ -370,10 +370,10 @@ const Dashboard = () => {
           <motion.div key="shorts" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
             <div className="flex items-center justify-between mb-5">
               <div>
-                <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                <h2 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
                   <Zap size={18} className="text-accent" /> Your Shorts
                 </h2>
-                <p className="text-sm text-white/35">{shorts.length} shorts uploaded</p>
+                <p className="text-sm text-gray-500 dark:text-white/35">{shorts.length} shorts uploaded</p>
               </div>
               <button onClick={() => { setIsShort(true); setUploadModal(true); }}
                 className="flex items-center gap-2 px-4 py-2 rounded-xl bg-accent/15 border border-accent/25 text-accent hover:bg-accent/25 text-sm font-semibold transition-all card-hover">
@@ -390,17 +390,17 @@ const Dashboard = () => {
           <motion.div key="playlists" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
             <div className="flex items-center justify-between mb-5">
               <div>
-                <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                <h2 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
                   <ListVideo size={18} className="text-primary" /> Your Playlists
                 </h2>
-                <p className="text-sm text-white/35">{playlists.length} playlists created</p>
+                <p className="text-sm text-gray-500 dark:text-white/35">{playlists.length} playlists created</p>
               </div>
             </div>
             {playlists.length === 0 ? (
                <div className="flex flex-col items-center py-20 text-center glass rounded-2xl">
-                 <ListVideo size={48} className="text-white/10 mb-4" />
-                 <p className="text-white/40 font-semibold mb-2">No playlists yet</p>
-                 <p className="text-sm text-white/30">Create a playlist while watching videos to organize your library.</p>
+                 <ListVideo size={48} className="text-gray-300 dark:text-white/10 mb-4" />
+                 <p className="text-gray-400 dark:text-white/40 font-semibold mb-2">No playlists yet</p>
+                 <p className="text-sm text-gray-400 dark:text-white/30">Create a playlist while watching videos to organize your library.</p>
                </div>
             ) : (
                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -416,8 +416,8 @@ const Dashboard = () => {
                            <ListVideo size={10} /> {(pl.videos || []).length}
                          </div>
                        </div>
-                       <h3 className="font-bold text-white text-sm line-clamp-1 group-hover:text-primary transition-colors">{pl.name}</h3>
-                       <p className="text-xs text-white/40 mt-1 line-clamp-2">{pl.description || "No description"}</p>
+                       <h3 className="font-bold text-gray-900 dark:text-white text-sm line-clamp-1 group-hover:text-primary transition-colors">{pl.name}</h3>
+                       <p className="text-xs text-gray-500 dark:text-white/40 mt-1 line-clamp-2">{pl.description || "No description"}</p>
                        
                        <button onClick={async (e) => { 
                          e.stopPropagation();

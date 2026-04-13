@@ -3,6 +3,7 @@ import FloatingDock from "./FloatingDock";
 import Navbar from "./Navbar";
 import CustomCursor from "./CustomCursor";
 import AuroraBackground from "./InteractiveBackground";
+import MiniPlayer from "./MiniPlayer";
 
 const Layout = () => {
   return (
@@ -18,6 +19,9 @@ const Layout = () => {
       </main>
 
       <FloatingDock />
+
+      {/* ── GLOBAL MINI PLAYER ── */}
+      <MiniPlayer />
     </div>
   );
 };

@@ -4,12 +4,15 @@ import App from "./App.jsx";
 import "./index.css";
 import { AuthProvider } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
+import { MiniPlayerProvider } from "./context/MiniPlayerContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ThemeProvider>
       <AuthProvider>
-        <App />
+        <MiniPlayerProvider>
+          <App />
+        </MiniPlayerProvider>
       </AuthProvider>
     </ThemeProvider>
   </React.StrictMode>

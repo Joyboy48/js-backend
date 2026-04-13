@@ -1,14 +1,34 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ThumbsUp, Share2, CheckCircle, Bell, Eye,
-  ChevronDown, ChevronUp, Copy, ExternalLink, Link2, X, ListPlus
+  ChevronDown, ChevronUp, Copy, ExternalLink, Link2, X, ListPlus, Settings2
 } from "lucide-react";
 import toast from "react-hot-toast";
 import api from "../api/axios";
 import Comments from "../components/Comments";
 import { VideoCard } from "../components/VideoCard";
+import { useMiniPlayer } from "../context/MiniPlayerContext";
+
+/* ─── Quality URL helper ─────────────────────────── */
+const QUALITIES = [
+  { label: "Auto", key: "auto" },
+  { label: "1080p", key: "1080" },
+  { label: "720p",  key: "720" },
+  { label: "480p",  key: "480" },
+  { label: "360p",  key: "360" },
+];
+
+const getQualityUrl = (originalUrl, quality) => {
+  if (!originalUrl || !originalUrl.includes("cloudinary")) return originalUrl;
+  if (quality === "auto") return originalUrl;
+  // Inject Cloudinary transform right after /upload/
+  return originalUrl.replace(
+    "/upload/",
+    `/upload/h_${quality},c_scale,q_auto/`
+  );
+};
 
 const formatNum = (n) => {
   if (!n) return "0";
@@ -175,6 +195,8 @@ const PlaylistModal = ({ videoId, onClose }) => {
 /* ─── Main Page ───────────────────────────────── */
 const VideoDetail = () => {
   const { id } = useParams();
+  const { openMini, closeMini } = useMiniPlayer();
+  const videoRef = useRef(null);
   const [video, setVideo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -184,6 +206,30 @@ const VideoDetail = () => {
   const [descExpanded, setDescExpanded] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
   const [playlistOpen, setPlaylistOpen] = useState(false);
+  const [quality, setQuality] = useState("auto");
+  const [qualityOpen, setQualityOpen] = useState(false);
+  const [qualityTime, setQualityTime] = useState(0);
+
+  // Close MiniPlayer when we're ON the video page
+  useEffect(() => {
+    closeMini();
+  }, [id]);
+
+  // On unmount — trigger mini player with saved time
+  const videoData = useRef(null);
+  useEffect(() => {
+    videoData.current = video;
+  }, [video]);
+
+  useEffect(() => {
+    return () => {
+      const v = videoData.current;
+      const t = videoRef.current?.currentTime || 0;
+      if (v && t > 2) {
+        openMini(v, t);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
@@ -282,11 +328,63 @@ const VideoDetail = () => {
               className="relative w-full aspect-video rounded-3xl overflow-hidden bg-black shadow-[0_20px_60px_rgba(0,0,0,0.5)] dark:shadow-[0_20px_60px_rgba(0,0,0,0.9)] ring-1 ring-gray-200 dark:ring-white/10"
             >
               <video
-                src={video.videoFile}
+                ref={videoRef}
+                key={quality}
+                src={getQualityUrl(video.videoFile, quality)}
                 controls autoPlay
                 poster={video.thumbnail}
                 className="w-full h-full object-contain bg-black"
+                onLoadedMetadata={(e) => {
+                  if (qualityTime > 0) {
+                    e.target.currentTime = qualityTime;
+                    setQualityTime(0);
+                  }
+                }}
               />
+
+              {/* Quality selector */}
+              <div className="absolute bottom-12 right-3 z-20">
+                <div className="relative">
+                  <motion.button
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => setQualityOpen(p => !p)}
+                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-black/70 backdrop-blur-md text-white text-xs font-bold border border-white/15 hover:bg-black/90 transition-colors"
+                  >
+                    <Settings2 size={13} />
+                    {quality === "auto" ? "Auto" : quality + "p"}
+                  </motion.button>
+
+                  <AnimatePresence>
+                    {qualityOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                        transition={{ duration: 0.15 }}
+                        className="absolute bottom-full right-0 mb-2 w-28 bg-black/90 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden shadow-2xl"
+                      >
+                        {QUALITIES.map((q) => (
+                          <button
+                            key={q.key}
+                            onClick={() => {
+                              const t = videoRef.current?.currentTime || 0;
+                              setQualityTime(t);
+                              setQuality(q.key);
+                              setQualityOpen(false);
+                            }}
+                            className={`w-full text-left px-3 py-2 text-xs font-semibold transition-colors hover:bg-white/10 flex items-center justify-between ${
+                              quality === q.key ? "text-primary" : "text-white/70"
+                            }`}
+                          >
+                            {q.label}
+                            {quality === q.key && <span className="w-1.5 h-1.5 rounded-full bg-primary" />}
+                          </button>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </div>
             </motion.div>
 
             {/* Title & Stats Island */}

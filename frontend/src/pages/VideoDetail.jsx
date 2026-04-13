@@ -210,26 +210,31 @@ const VideoDetail = () => {
   const [qualityOpen, setQualityOpen] = useState(false);
   const [qualityTime, setQualityTime] = useState(0);
 
-  // Close MiniPlayer when we're ON the video page
+  // ── MiniPlayer refs (avoid stale closures in cleanup) ──
+  const videoDataRef = useRef(null);   // latest video object
+  const openMiniRef  = useRef(openMini); // latest openMini fn
+  const closeMiniRef = useRef(closeMini);
+
+  // Keep refs current on every render
+  useEffect(() => { openMiniRef.current  = openMini;  });
+  useEffect(() => { closeMiniRef.current = closeMini; });
+  useEffect(() => { videoDataRef.current = video; }, [video]);
+
+  // Close mini player while we're watching this video
   useEffect(() => {
-    closeMini();
+    closeMiniRef.current?.();
   }, [id]);
 
-  // On unmount — trigger mini player with saved time
-  const videoData = useRef(null);
-  useEffect(() => {
-    videoData.current = video;
-  }, [video]);
-
+  // On unmount → pop open the mini player from where user left off
   useEffect(() => {
     return () => {
-      const v = videoData.current;
+      const v = videoDataRef.current;
       const t = videoRef.current?.currentTime || 0;
-      if (v && t > 2) {
-        openMini(v, t);
+      if (v && t > 1) {
+        openMiniRef.current(v, t);
       }
     };
-  }, []);
+  }, []); // intentionally empty — only runs on unmount
 
   useEffect(() => {
     window.scrollTo({ top: 0 });

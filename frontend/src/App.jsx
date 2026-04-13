@@ -25,21 +25,19 @@ function App() {
           <Route path="/register" element={<Register />} />
 
           {/* Protected/Main Routes wrapper */}
-          <Route path="/" element={<Layout />}>
-            {/* Publicly accessible within Layout */}
-            <Route index element={<Home />} />
-            <Route path="/video/:id" element={<VideoDetail />} />
-            <Route path="/c/:username" element={<ChannelProfile />} />
-            <Route path="/explore" element={<Home />} />
-            <Route path="/shorts" element={<Shorts />} />
-            <Route path="/playlist/:id" element={<PlaylistDetail />} />
-            
-            {/* Private Routes */}
-            <Route element={<ProtectedRoute />}>
-               <Route path="/subscriptions" element={<Subscriptions />} />
-               <Route path="/history" element={<History />} />
-               <Route path="/liked" element={<LikedVideos />} />
-               <Route path="/channel" element={<Dashboard />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="/video/:id" element={<VideoDetail />} />
+              <Route path="/c/:username" element={<ChannelProfile />} />
+              <Route path="/explore" element={<Home />} />
+              <Route path="/shorts" element={<Shorts />} />
+              <Route path="/playlist/:id" element={<PlaylistDetail />} />
+              
+              <Route path="/subscriptions" element={<Subscriptions />} />
+              <Route path="/history" element={<History />} />
+              <Route path="/liked" element={<LikedVideos />} />
+              <Route path="/channel" element={<Dashboard />} />
             </Route>
           </Route>
         </Routes>

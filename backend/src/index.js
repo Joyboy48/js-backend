@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import connectDB from "./db/index.js";
-import {app} from "./app.js"
+import {app} from "./app.js";
+import https from "https";
 
 dotenv.config({
     path: './.env'
@@ -17,6 +18,15 @@ connectDB()
     app.listen(process.env.PORT || 8000,()=>{
         console.log(`Server is running at the port : ${process.env.PORT}`);
         
+        // Anti-Sleep Self-Ping Mechanism
+        const RENDER_URL = "https://zootube-backend.onrender.com/api/v1/healthcheck";
+        setInterval(() => {
+            https.get(RENDER_URL, (res) => {
+                console.log(`[Self-Ping] Sent keep-alive ping to ${RENDER_URL} - Status: ${res.statusCode}`);
+            }).on('error', (err) => {
+                console.error(`[Self-Ping Error] Keep-alive ping failed:`, err.message);
+            });
+        }, 10 * 60 * 1000); // Ping every 10 minutes (600,000 ms)
     })
 })
 .catch((error)=>{

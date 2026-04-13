@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: elitestream-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - NODE_ENV=production
+      # Important: Assuming the .env is inside backend/.env
+    env_file:
+      - ./backend/.env
+    networks:
+      - elitestream-net
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: elitestream-frontend
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - backend
+    networks:
+      - elitestream-net
+    restart: unless-stopped
+
+networks:
+  elitestream-net:
+    driver: bridge

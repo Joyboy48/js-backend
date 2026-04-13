@@ -1,0 +1,7 @@
+users: 6
+comments: 6
+videos: 4
+subscriptions: 1
+tweets: 3
+playlists: 0
+likes: 5

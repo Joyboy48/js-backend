@@ -1,0 +1,64 @@
+name: EliteStream CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  backend-test:
+    name: Backend Build & Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install Dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      # Normally you'd run `npm test` or `npm run lint` here.
+      # - name: Run Tests
+      #   working-directory: ./backend
+      #   run: npm test
+
+  frontend-test:
+    name: Frontend Build & Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install Dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: Verify Build
+        working-directory: ./frontend
+        run: npm run build
+
+  docker-build-verification:
+    name: Verify Docker Ecosystem
+    runs-on: ubuntu-latest
+    needs: [backend-test, frontend-test]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+      
+      - name: Build Docker Compose
+        run: docker-compose build

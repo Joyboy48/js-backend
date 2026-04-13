@@ -454,11 +454,11 @@ const Dashboard = () => {
                     {isShort ? <Zap size={18} className="text-accent" /> : <Video size={18} className="text-primary" />}
                   </div>
                   <div>
-                    <h2 className="text-base font-bold text-white">{isShort ? "Upload Short" : "Upload Video"}</h2>
-                    <p className="text-xs text-white/35">{isShort ? "Vertical content, ≤60s recommended" : "Regular landscape content"}</p>
+                    <h2 className="text-base font-bold text-gray-900 dark:text-white">{isShort ? "Upload Short" : "Upload Video"}</h2>
+                    <p className="text-xs text-gray-500 dark:text-white/35">{isShort ? "Vertical content, ≤60s recommended" : "Regular landscape content"}</p>
                   </div>
                 </div>
-                <button onClick={() => setUploadModal(false)} className="p-2 rounded-xl hover:bg-white/8 text-white/40 hover:text-white transition-all card-hover">
+                <button onClick={() => setUploadModal(false)} className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-white/8 text-gray-400 dark:text-white/40 hover:text-gray-900 dark:hover:text-white transition-all card-hover">
                   <X size={18} />
                 </button>
               </div>
@@ -469,47 +469,47 @@ const Dashboard = () => {
                   {/* Toggle Short/Video */}
                   <div className="flex p-1 glass rounded-xl">
                     <button type="button" onClick={() => setIsShort(false)}
-                      className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-semibold transition-all ${!isShort ? "bg-primary text-white" : "text-white/40 hover:text-white/70"}`}>
+                      className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-semibold transition-all ${!isShort ? "bg-primary text-white" : "text-gray-500 dark:text-white/40 hover:text-gray-900 dark:hover:text-white/70"}`}>
                       <Video size={14} /> Video
                     </button>
                     <button type="button" onClick={() => setIsShort(true)}
-                      className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-semibold transition-all ${isShort ? "bg-accent text-white" : "text-white/40 hover:text-white/70"}`}>
+                      className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-semibold transition-all ${isShort ? "bg-accent text-white" : "text-gray-500 dark:text-white/40 hover:text-gray-900 dark:hover:text-white/70"}`}>
                       <Zap size={14} /> Short
                     </button>
                   </div>
 
                   {/* Video file */}
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-white/40 uppercase tracking-widest">Video File *</label>
+                    <label className="text-xs font-semibold text-gray-500 dark:text-white/40 uppercase tracking-widest">Video File *</label>
                     <input type="file" ref={videoRef} accept="video/*" required
-                      className="w-full text-sm text-white/50 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold file:bg-primary/20 file:text-primary hover:file:bg-primary/30 bg-white/4 border border-white/8 rounded-xl p-2 outline-none card-hover" />
+                      className="w-full text-sm text-gray-600 dark:text-white/50 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold file:bg-primary/20 file:text-primary hover:file:bg-primary/30 bg-white dark:bg-white/4 border border-gray-200 dark:border-white/8 rounded-xl p-2 outline-none card-hover shadow-sm" />
                   </div>
 
                   {/* Thumbnail */}
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-white/40 uppercase tracking-widest">Thumbnail *</label>
+                    <label className="text-xs font-semibold text-gray-500 dark:text-white/40 uppercase tracking-widest">Thumbnail *</label>
                     <input type="file" ref={thumbRef} accept="image/*" required
-                      className="w-full text-sm text-white/50 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold file:bg-accent/20 file:text-accent hover:file:bg-accent/30 bg-white/4 border border-white/8 rounded-xl p-2 outline-none card-hover" />
+                      className="w-full text-sm text-gray-600 dark:text-white/50 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold file:bg-accent/20 file:text-accent hover:file:bg-accent/30 bg-white dark:bg-white/4 border border-gray-200 dark:border-white/8 rounded-xl p-2 outline-none card-hover shadow-sm" />
                   </div>
 
                   {/* Title */}
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-white/40 uppercase tracking-widest">Title *</label>
+                    <label className="text-xs font-semibold text-gray-500 dark:text-white/40 uppercase tracking-widest">Title *</label>
                     <input type="text" name="title" required placeholder="Give it a great title"
-                      className="w-full px-4 py-2.5 bg-white/4 border border-white/8 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-primary/40 transition-colors" />
+                      className="w-full px-4 py-2.5 bg-white dark:bg-white/4 border border-gray-200 dark:border-white/8 rounded-xl text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-white/20 outline-none focus:border-primary/40 focus:ring-2 focus:ring-primary/20 transition-all shadow-sm" />
                   </div>
 
                   {/* Description */}
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-white/40 uppercase tracking-widest">Description *</label>
+                    <label className="text-xs font-semibold text-gray-500 dark:text-white/40 uppercase tracking-widest">Description *</label>
                     <textarea name="description" required rows={3} placeholder="What's this about..."
-                      className="w-full px-4 py-2.5 bg-white/4 border border-white/8 rounded-xl text-sm text-white placeholder:text-white/20 outline-none focus:border-primary/40 transition-colors resize-none" />
+                      className="w-full px-4 py-2.5 bg-white dark:bg-white/4 border border-gray-200 dark:border-white/8 rounded-xl text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-white/20 outline-none focus:border-primary/40 focus:ring-2 focus:ring-primary/20 transition-all resize-none shadow-sm" />
                   </div>
 
                   {/* Actions */}
                   <div className="flex gap-3 pt-2">
                     <button type="button" onClick={() => setUploadModal(false)}
-                      className="flex-1 py-2.5 rounded-xl glass-light text-white/50 hover:text-white text-sm font-semibold transition-all card-hover">
+                      className="flex-1 py-2.5 rounded-xl glass-light text-gray-700 dark:text-white/50 hover:bg-gray-100 dark:hover:bg-white/5 dark:hover:text-white text-sm font-semibold transition-all card-hover">
                       Cancel
                     </button>
                     <button type="submit" disabled={uploading}

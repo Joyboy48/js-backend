@@ -482,28 +482,28 @@ const Dashboard = () => {
                   <div className="space-y-1.5">
                     <label className="text-xs font-semibold text-gray-500 dark:text-white/40 uppercase tracking-widest">Video File *</label>
                     <input type="file" ref={videoRef} accept="video/*" required
-                      className="w-full text-sm text-gray-600 dark:text-white/50 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold file:bg-primary/20 file:text-primary hover:file:bg-primary/30 bg-white dark:bg-white/4 border border-gray-200 dark:border-white/8 rounded-xl p-2 outline-none card-hover shadow-sm" />
+                      className="w-full text-sm text-gray-600 dark:text-white/50 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold file:bg-primary/20 file:text-primary hover:file:bg-primary/30 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/8 rounded-xl p-2 outline-none card-hover" />
                   </div>
 
                   {/* Thumbnail */}
                   <div className="space-y-1.5">
                     <label className="text-xs font-semibold text-gray-500 dark:text-white/40 uppercase tracking-widest">Thumbnail *</label>
                     <input type="file" ref={thumbRef} accept="image/*" required
-                      className="w-full text-sm text-gray-600 dark:text-white/50 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold file:bg-accent/20 file:text-accent hover:file:bg-accent/30 bg-white dark:bg-white/4 border border-gray-200 dark:border-white/8 rounded-xl p-2 outline-none card-hover shadow-sm" />
+                      className="w-full text-sm text-gray-600 dark:text-white/50 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold file:bg-accent/20 file:text-accent hover:file:bg-accent/30 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/8 rounded-xl p-2 outline-none card-hover" />
                   </div>
 
                   {/* Title */}
                   <div className="space-y-1.5">
                     <label className="text-xs font-semibold text-gray-500 dark:text-white/40 uppercase tracking-widest">Title *</label>
                     <input type="text" name="title" required placeholder="Give it a great title"
-                      className="w-full px-4 py-2.5 bg-white dark:bg-white/4 border border-gray-200 dark:border-white/8 rounded-xl text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-white/20 outline-none focus:border-primary/40 focus:ring-2 focus:ring-primary/20 transition-all shadow-sm" />
+                      className="w-full px-4 py-2.5 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/8 rounded-xl text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-white/20 outline-none focus:border-primary/40 focus:ring-2 focus:ring-primary/20 transition-all" />
                   </div>
 
                   {/* Description */}
                   <div className="space-y-1.5">
                     <label className="text-xs font-semibold text-gray-500 dark:text-white/40 uppercase tracking-widest">Description *</label>
                     <textarea name="description" required rows={3} placeholder="What's this about..."
-                      className="w-full px-4 py-2.5 bg-white dark:bg-white/4 border border-gray-200 dark:border-white/8 rounded-xl text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-white/20 outline-none focus:border-primary/40 focus:ring-2 focus:ring-primary/20 transition-all resize-none shadow-sm" />
+                      className="w-full px-4 py-2.5 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/8 rounded-xl text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-white/20 outline-none focus:border-primary/40 focus:ring-2 focus:ring-primary/20 transition-all resize-none" />
                   </div>
 
                   {/* Actions */}
